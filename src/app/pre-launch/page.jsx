@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
@@ -149,7 +149,7 @@ export default function PreLaunchPage() {
             <br />Properties
           </h1>
           <p className="text-slate-300 text-sm sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            Be the first to invest. Register your interest now and lock early-bird pricing before public launch on Rudra Group's most anticipated projects in Dholera SIR.
+            Be the first to invest. Register your interest now and lock early-bird pricing before public launch on Rudra Group&apos;s most anticipated projects in Dholera SIR.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
             <Link
@@ -286,7 +286,7 @@ export default function PreLaunchPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-950 border-t border-slate-800">
         <div className="max-w-3xl mx-auto text-center space-y-5">
           <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-            Don't miss the launch window
+            Don&apos;t miss the launch window
           </h3>
           <p className="text-slate-400 text-sm leading-relaxed">
             Pre-launch prices are available for a limited time and often sell out within 48 hours. Register now to receive priority access, detailed brochures, and early-bird payment plans.

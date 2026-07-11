@@ -170,7 +170,7 @@ const DholeraSIR = () => {
             About Dholera <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-gold-400 to-amber-500">SIR</span>
           </h1>
           <p className="text-base sm:text-xl text-slate-300 mt-6 max-w-2xl mx-auto leading-relaxed">
-            A comprehensive, high-fidelity profile of India's flagship greenfield industrial smart city under the Delhi-Mumbai Industrial Corridor.
+            A comprehensive, high-fidelity profile of India&apos;s flagship greenfield industrial smart city under the Delhi-Mumbai Industrial Corridor.
           </p>
         </div>
       </section>
@@ -187,11 +187,11 @@ const DholeraSIR = () => {
                 Chapter 01 — Executive Overview
               </span>
               <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-800 dark:text-white leading-tight">
-                India's First <span className="text-blue-600 dark:text-blue-450">Greenfield Smart City</span>
+                India&apos;s First <span className="text-blue-600 dark:text-blue-450">Greenfield Smart City</span>
               </h2>
               <div className="h-1.5 w-20 bg-gradient-to-r from-blue-500 to-gold-500 rounded-full" />
               <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed text-justify">
-                Dholera SIR is India's first greenfield industrial smart city being developed as part of the Delhi-Mumbai Industrial Corridor (DMIC). Located in the Gulf of Khambhat in Gujarat, it spans approximately 920 sq km and is positioned as a global manufacturing and trading hub.
+                Dholera SIR is India&apos;s first greenfield industrial smart city being developed as part of the Delhi-Mumbai Industrial Corridor (DMIC). Located in the Gulf of Khambhat in Gujarat, it spans approximately 920 sq km and is positioned as a global manufacturing and trading hub.
               </p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
@@ -330,7 +330,7 @@ const DholeraSIR = () => {
                   Tata Semiconductor Fabrication Facility
                 </h3>
                 <p className="text-slate-300 text-xs sm:text-sm leading-relaxed text-justify">
-                  Tata Electronics is building a milestone ₹91,000 Crore ($10.9 billion) semiconductor fabrication plant in Dholera SIR. Partnering with Powerchip Semiconductor Manufacturing Corporation (PSMC) of Taiwan, this facility is designed to manufacture microchips that will power automotive control units, computing platforms, and telecom networks, forming the foundation of India's electronic ecosystem.
+                  Tata Electronics is building a milestone ₹91,000 Crore ($10.9 billion) semiconductor fabrication plant in Dholera SIR. Partnering with Powerchip Semiconductor Manufacturing Corporation (PSMC) of Taiwan, this facility is designed to manufacture microchips that will power automotive control units, computing platforms, and telecom networks, forming the foundation of India&apos;s electronic ecosystem.
                 </p>
               </div>
               
@@ -609,7 +609,7 @@ const DholeraSIR = () => {
                 Positioned for Dynamic Industrial Integration
               </h2>
               <p className="text-sm text-slate-550 dark:text-slate-400 leading-relaxed text-justify">
-                Dholera SIR is located in the Delhi-Mumbai Industrial Corridor (DMIC), one of the world's largest planned infrastructure hubs. This central location offers excellent proximity to regional manufacturing centers and international trade ports.
+                Dholera SIR is located in the Delhi-Mumbai Industrial Corridor (DMIC), one of the world&apos;s largest planned infrastructure hubs. This central location offers excellent proximity to regional manufacturing centers and international trade ports.
               </p>
               <div className="flex items-center space-x-3 text-slate-655 dark:text-slate-350 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-850 inline-flex">
                 <MapPin className="h-5 w-5 text-blue-500 shrink-0" />

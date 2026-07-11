@@ -230,7 +230,7 @@ const LandDeals = () => {
               <span className="absolute bottom-[-8px] left-1/4 right-1/4 h-1 bg-blue-600 dark:bg-blue-400 rounded-full" />
             </h3>
             <p className="text-sm sm:text-base text-slate-550 dark:text-slate-400 max-w-xl mx-auto pt-2 leading-relaxed">
-              Secure your future with strategic land investments in India's first planned smart city
+              Secure your future with strategic land investments in India&apos;s first planned smart city
             </p>
           </div>
 
@@ -289,7 +289,7 @@ const LandDeals = () => {
                 Secure Your Land Plot in Dholera SIR Today
               </h3>
               <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
-                Dholera is India's fastest-growing industrial smart city. Take advantage of early-stage pricing, 100% legally clear land plots, and seamless government allotment support. Get in touch with our investment advisors now.
+                Dholera is India&apos;s fastest-growing industrial smart city. Take advantage of early-stage pricing, 100% legally clear land plots, and seamless government allotment support. Get in touch with our investment advisors now.
               </p>
               
               <div className="space-y-4 pt-4">

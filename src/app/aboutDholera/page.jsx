@@ -108,7 +108,7 @@ const AboutDholera = () => {
 
         <div className="relative max-w-4xl mx-auto text-center z-10">
           <span className="text-xs font-bold text-gold-500 uppercase tracking-widest bg-gold-500/10 px-3 py-1.5 rounded-full">
-            India's First Greenfield Smart City
+            India&apos;s First Greenfield Smart City
           </span>
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight mt-6 mb-6 leading-tight">
             Dholera Special Investment Region (SIR)
@@ -159,7 +159,7 @@ const AboutDholera = () => {
                     The Greenfield Metropolis of Tomorrow
                   </h2>
                   <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed text-justify">
-                    Dholera SIR is India's first greenfield industrial smart city being developed as part of the Delhi-Mumbai Industrial Corridor (DMIC). Located in the Gulf of Khambhat in Gujarat, it spans approximately 920 sq km and is positioned as a global manufacturing and trading hub.
+                    Dholera SIR is India&apos;s first greenfield industrial smart city being developed as part of the Delhi-Mumbai Industrial Corridor (DMIC). Located in the Gulf of Khambhat in Gujarat, it spans approximately 920 sq km and is positioned as a global manufacturing and trading hub.
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
