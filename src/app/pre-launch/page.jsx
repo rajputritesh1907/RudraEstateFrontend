@@ -98,8 +98,8 @@ const STATIC_ITEMS = [
 
 const CATEGORY_COLORS = {
   Residential: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-  Commercial:  'text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/20',
-  Industrial:  'text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/20',
+  Commercial: 'text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/20',
+  Industrial: 'text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/20',
 };
 
 export default function PreLaunchPage() {
@@ -110,7 +110,8 @@ export default function PreLaunchPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/prelaunches`);
+        const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+        const res = await fetch(`${baseUrl}/api/prelaunches`);
         if (res.ok) {
           const data = await res.json();
           setItems(data.length > 0 ? data : STATIC_ITEMS);

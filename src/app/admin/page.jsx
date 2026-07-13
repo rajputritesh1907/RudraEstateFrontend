@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react';
 import { Mail, Phone, Calendar, Trash2, ShieldCheck, Sparkles, Loader2, ArrowRight, Plus, FileText, BookOpen, Layers, MessageSquare, Star, Rocket, TrendingUp, Users, BarChart3, Filter } from 'lucide-react';
 
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('analytics'); // 'analytics', 'leads', 'blogs', 'testimonials', 'prelaunches'
   const [analyticsFilter, setAnalyticsFilter] = useState('day'); // 'day', 'month', 'year'
   const [hoveredVisits, setHoveredVisits] = useState(null);
   const [hoveredCallbacks, setHoveredCallbacks] = useState(null);
   const [hoveredLand, setHoveredLand] = useState(null);
-  
+
   // Leads States
   const [leads, setLeads] = useState([]);
   const [leadsLoading, setLeadsLoading] = useState(true);
@@ -74,7 +76,7 @@ export default function AdminDashboard() {
     setLeadsLoading(true);
     setLeadsError('');
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads`);
+      const res = await fetch(`${API_URL}/api/leads`);
       if (res.ok) {
         const data = await res.json();
         setLeads(data);
@@ -92,7 +94,7 @@ export default function AdminDashboard() {
     setBlogsLoading(true);
     setBlogsError('');
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs`);
+      const res = await fetch(`${API_URL}/api/blogs`);
       if (res.ok) {
         const data = await res.json();
         setBlogs(data);
@@ -113,7 +115,7 @@ export default function AdminDashboard() {
     else if (currentStatus === 'Contacted') nextStatus = 'Closed';
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads/${id}`, {
+      const res = await fetch(`${API_URL}/api/leads/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus })
@@ -133,7 +135,7 @@ export default function AdminDashboard() {
   const handleDeleteLead = async (id) => {
     if (!window.confirm('Are you sure you want to delete this lead?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads/${id}`, {
+      const res = await fetch(`${API_URL}/api/leads/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -166,7 +168,7 @@ export default function AdminDashboard() {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs`, {
+      const res = await fetch(`${API_URL}/api/blogs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -199,7 +201,7 @@ export default function AdminDashboard() {
   const handleDeleteBlog = async (id) => {
     if (!window.confirm('Are you sure you want to delete this blog post?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs/${id}`, {
+      const res = await fetch(`${API_URL}/api/blogs/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -215,7 +217,7 @@ export default function AdminDashboard() {
   const fetchPreLaunches = async () => {
     setPreLaunchLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/prelaunches`);
+      const res = await fetch(`${API_URL}/api/prelaunches`);
       if (res.ok) setPreLaunches(await res.json());
       else setPreLaunchError('Failed to fetch pre-launches.');
     } catch { setPreLaunchError('Unable to connect to server.'); }
@@ -235,7 +237,7 @@ export default function AdminDashboard() {
         ...newPreLaunch,
         image: newPreLaunch.image.trim() || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
       };
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/prelaunches`, {
+      const res = await fetch(`${API_URL}/api/prelaunches`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
       if (res.ok) {
@@ -251,7 +253,7 @@ export default function AdminDashboard() {
 
   const handleDeletePreLaunch = async (id) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/prelaunches/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/api/prelaunches/${id}`, { method: 'DELETE' });
       if (res.ok) {
         setPreLaunches(prev => prev.filter(p => p._id !== id));
       } else {
@@ -267,7 +269,7 @@ export default function AdminDashboard() {
     setTestimonialsLoading(true);
     setTestimonialsError('');
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials`);
+      const res = await fetch(`${API_URL}/api/testimonials`);
       if (res.ok) {
         const data = await res.json();
         setTestimonials(data);
@@ -297,7 +299,7 @@ export default function AdminDashboard() {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials`, {
+      const res = await fetch(`${API_URL}/api/testimonials`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -328,7 +330,7 @@ export default function AdminDashboard() {
   const handleDeleteTestimonial = async (id) => {
     if (!window.confirm('Are you sure you want to delete this testimonial?')) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials/${id}`, {
+      const res = await fetch(`${API_URL}/api/testimonials/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -385,7 +387,7 @@ export default function AdminDashboard() {
         // Filter leads created on this day
         const startOfDay = new Date(d.setHours(0, 0, 0, 0));
         const endOfDay = new Date(d.setHours(23, 59, 59, 999));
-        
+
         let callbacksCount = 0;
         let landDealsCount = 0;
 
@@ -515,55 +517,50 @@ export default function AdminDashboard() {
           <div className="flex bg-slate-800/80 border border-slate-700/60 p-1.5 rounded-2xl space-x-1 shrink-0">
             <button
               onClick={() => setActiveTab('analytics')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                activeTab === 'analytics'
-                  ? 'bg-gradient-gold text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${activeTab === 'analytics'
+                ? 'bg-gradient-gold text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               <TrendingUp className="h-4 w-4" />
               <span>Analytics</span>
             </button>
             <button
               onClick={() => setActiveTab('leads')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                activeTab === 'leads'
-                  ? 'bg-gradient-gold text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${activeTab === 'leads'
+                ? 'bg-gradient-gold text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               <Mail className="h-4 w-4" />
               <span>Inquiries ({leads.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('blogs')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                activeTab === 'blogs'
-                  ? 'bg-gradient-gold text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${activeTab === 'blogs'
+                ? 'bg-gradient-gold text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               <BookOpen className="h-4 w-4" />
               <span>Blog Articles ({blogs.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('testimonials')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                activeTab === 'testimonials'
-                  ? 'bg-gradient-gold text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${activeTab === 'testimonials'
+                ? 'bg-gradient-gold text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               <MessageSquare className="h-4 w-4" />
               <span>Testimonials ({testimonials.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('prelaunches')}
-              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${
-                activeTab === 'prelaunches'
-                  ? 'bg-gradient-gold text-white shadow-md'
-                  : 'text-slate-400 hover:text-white'
-              }`}
+              className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 ${activeTab === 'prelaunches'
+                ? 'bg-gradient-gold text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+                }`}
             >
               <Rocket className="h-4 w-4" />
               <span>Pre-Launch ({preLaunches.length})</span>
@@ -678,31 +675,28 @@ export default function AdminDashboard() {
               <div className="flex items-center space-x-1.5 self-end sm:self-auto bg-slate-100 dark:bg-slate-800/60 p-1.5 rounded-xl border border-slate-200/40 dark:border-slate-800">
                 <button
                   onClick={() => setAnalyticsFilter('day')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    analyticsFilter === 'day'
-                      ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
-                      : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${analyticsFilter === 'day'
+                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
+                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
+                    }`}
                 >
                   Day
                 </button>
                 <button
                   onClick={() => setAnalyticsFilter('month')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    analyticsFilter === 'month'
-                      ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
-                      : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${analyticsFilter === 'month'
+                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
+                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
+                    }`}
                 >
                   Month
                 </button>
                 <button
                   onClick={() => setAnalyticsFilter('year')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                    analyticsFilter === 'year'
-                      ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
-                      : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
-                  }`}
+                  className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${analyticsFilter === 'year'
+                    ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm'
+                    : 'text-slate-400 dark:text-slate-500 hover:text-slate-805 dark:hover:text-slate-200'
+                    }`}
                 >
                   Year
                 </button>
@@ -866,7 +860,7 @@ export default function AdminDashboard() {
 
             {/* Row of Graphs: Callbacks and Land Deals side-by-side */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
+
               {/* Callback Requests Graph */}
               <div className="bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 shadow-sm relative overflow-hidden">
                 <div className="flex justify-between items-start mb-6">
@@ -928,11 +922,10 @@ export default function AdminDashboard() {
                             width={barWidth}
                             height={h}
                             rx="5"
-                            className={`transition-all duration-150 cursor-pointer ${
-                              isHovered
-                                ? 'fill-emerald-400 dark:fill-emerald-300'
-                                : 'fill-emerald-500 dark:fill-emerald-600/90'
-                            }`}
+                            className={`transition-all duration-150 cursor-pointer ${isHovered
+                              ? 'fill-emerald-400 dark:fill-emerald-300'
+                              : 'fill-emerald-500 dark:fill-emerald-600/90'
+                              }`}
                             onMouseEnter={() =>
                               setHoveredCallbacks({ index: idx, x, y, val, label: labels[idx] })
                             }
@@ -1040,11 +1033,10 @@ export default function AdminDashboard() {
                             width={barWidth}
                             height={h}
                             rx="5"
-                            className={`transition-all duration-150 cursor-pointer ${
-                              isHovered
-                                ? 'fill-blue-400 dark:fill-blue-350'
-                                : 'fill-blue-550 dark:fill-blue-600/90'
-                            }`}
+                            className={`transition-all duration-150 cursor-pointer ${isHovered
+                              ? 'fill-blue-400 dark:fill-blue-350'
+                              : 'fill-blue-550 dark:fill-blue-600/90'
+                              }`}
                             onMouseEnter={() =>
                               setHoveredLand({ index: idx, x, y, val, label: labels[idx] })
                             }
@@ -1106,7 +1098,7 @@ export default function AdminDashboard() {
             ) : leadsError ? (
               <div className="py-20 text-center px-4">
                 <p className="text-rose-500 dark:text-rose-400 font-bold mb-4">{leadsError}</p>
-                <button 
+                <button
                   onClick={fetchLeads}
                   className="px-4 py-2 bg-gold-500 text-white text-xs font-bold rounded-xl shadow-sm hover:opacity-95"
                 >
@@ -1168,13 +1160,12 @@ export default function AdminDashboard() {
                             <button
                               onClick={() => handleUpdateLeadStatus(lead._id, lead.status)}
                               disabled={updatingLeadId === lead._id}
-                              className={`px-3 py-1.5 rounded-xl font-bold text-[10px] uppercase tracking-wider inline-flex items-center space-x-1 border ${
-                                lead.status === 'New'
-                                  ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/30'
-                                  : lead.status === 'Contacted'
-                                    ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-800/30'
-                                    : 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800/30'
-                              }`}
+                              className={`px-3 py-1.5 rounded-xl font-bold text-[10px] uppercase tracking-wider inline-flex items-center space-x-1 border ${lead.status === 'New'
+                                ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/30'
+                                : lead.status === 'Contacted'
+                                  ? 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-800/30'
+                                  : 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-800/30'
+                                }`}
                             >
                               <span>{lead.status}</span>
                               <ArrowRight className="h-3 w-3 text-current ml-0.5 opacity-60" />
@@ -1201,7 +1192,7 @@ export default function AdminDashboard() {
         {/* BLOGS MANAGEMENT TAB VIEW */}
         {activeTab === 'blogs' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
+
             {/* Create Blog Form */}
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 shadow-sm">
               <h3 className="text-lg font-bold mb-2 flex items-center space-x-2 text-slate-800 dark:text-white">
@@ -1384,7 +1375,7 @@ export default function AdminDashboard() {
         {/* TESTIMONIALS MANAGEMENT TAB VIEW */}
         {activeTab === 'testimonials' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-fade-in-up">
-            
+
             {/* Create Testimonial Form */}
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl p-6 shadow-sm">
               <h3 className="text-lg font-bold mb-2 flex items-center space-x-2 text-slate-800 dark:text-white">

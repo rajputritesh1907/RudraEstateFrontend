@@ -118,7 +118,8 @@ function ProjectsContent() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects`);
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+      const res = await fetch(`${baseUrl}/api/projects`);
       if (res.ok) {
         const data = await res.json();
         setProjects(data.length > 0 ? data : ALL_STATIC_PROJECTS);
@@ -178,11 +179,10 @@ function ProjectsContent() {
                 <button
                   key={type}
                   onClick={() => setFilterType(type)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                    filterType === type
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${filterType === type
                       ? 'bg-navy-800 dark:bg-slate-800 text-gold-400 border border-gold-500/25 shadow-sm'
                       : 'bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-gold-500'
-                  }`}
+                    }`}
                 >
                   {type}
                 </button>
@@ -214,7 +214,7 @@ function ProjectsContent() {
           ) : filteredProjects.length === 0 ? (
             <div className="text-center py-20 bg-slate-50 dark:bg-slate-900/50 rounded-2xl">
               <p className="text-slate-500 dark:text-slate-400 font-semibold">No projects found matching the selected filters.</p>
-              <button 
+              <button
                 onClick={() => { setFilterType('All'); setFilterStatus('All'); }}
                 className="mt-4 text-xs font-bold text-gold-500 hover:underline"
               >
@@ -239,7 +239,7 @@ function ProjectsContent() {
       <section className="pb-24 pt-8 bg-white dark:bg-slate-950 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative rounded-3xl overflow-hidden bg-slate-900 border border-slate-800 text-white shadow-2xl py-12 px-6 sm:px-12 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-8">
-            
+
             {/* Background Masterplan blueprint pattern */}
             <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay">
               <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -251,7 +251,7 @@ function ProjectsContent() {
                 <rect width="100%" height="100%" fill="url(#grid)" />
               </svg>
             </div>
-            
+
             {/* Green trend arrow / growth gradient background */}
             <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/10 via-transparent to-green-500/10 pointer-events-none" />
 
@@ -282,7 +282,7 @@ function ProjectsContent() {
                 <Phone className="h-4 w-4 shrink-0 group-hover:scale-110 transition-transform" />
                 <span>Contact Our Experts</span>
               </button>
-              
+
               <button
                 onClick={() => handleInquiryTrigger('Custom Project Request')}
                 className="px-6 py-3.5 bg-transparent hover:bg-slate-800 text-white border border-slate-700 hover:border-slate-500 font-bold rounded-xl text-xs sm:text-sm transition-all flex items-center justify-center space-x-2 w-full sm:w-auto"

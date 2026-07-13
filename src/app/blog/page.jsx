@@ -49,7 +49,8 @@ export default function Blog() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs`);
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+      const res = await fetch(`${baseUrl}/api/blogs`);
       if (res.ok) {
         const data = await res.json();
         setBlogs(data.length > 0 ? data : STATIC_BLOGS);
@@ -66,8 +67,8 @@ export default function Blog() {
   const categories = ['All', 'Investment', 'Legal', 'Infrastructure'];
 
   const filteredBlogs = blogs.filter((blog) => {
-    const matchesSearch = blog.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          blog.summary.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = blog.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      blog.summary.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || blog.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -104,11 +105,10 @@ export default function Blog() {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  selectedCategory === cat
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${selectedCategory === cat
                     ? 'bg-navy-800 dark:bg-slate-800 text-gold-400 border border-gold-500/20'
                     : 'bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:text-gold-500'
-                }`}
+                  }`}
               >
                 {cat}
               </button>
@@ -146,8 +146,8 @@ export default function Blog() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
               {filteredBlogs.map((blog) => {
                 return (
-                  <div 
-                    key={blog._id} 
+                  <div
+                    key={blog._id}
                     className="bg-slate-50/50 dark:bg-slate-900/20 border border-slate-200/50 dark:border-slate-800/50 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700 flex flex-col h-full transition-all group duration-300"
                   >
                     {/* Image section */}
@@ -212,7 +212,7 @@ export default function Blog() {
             <rect width="100%" height="100%" fill="url(#newsletter-grid)" />
           </svg>
         </div>
-        
+
         <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6">
           <span className="px-4 py-1.5 bg-gold-500/10 border border-gold-500/20 text-gold-400 text-[10px] font-bold uppercase tracking-wider rounded-full">
             Stay Informed
@@ -223,7 +223,7 @@ export default function Blog() {
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto leading-relaxed">
             Join our weekly digest for exclusive TPS updates, policy announcements, market reports, and hot land deals sent straight to your inbox.
           </p>
-          
+
           <form className="max-w-md mx-auto flex flex-col sm:flex-row gap-3 pt-4" onSubmit={(e) => { e.preventDefault(); alert("Thank you for subscribing to Rudra updates!"); }}>
             <input
               type="email"

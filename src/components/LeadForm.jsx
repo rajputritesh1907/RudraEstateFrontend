@@ -36,7 +36,8 @@ const LeadForm = ({ defaultProperty = 'General Inquiry', darkBg = false }) => {
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads`, {
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+      const response = await fetch(`${baseUrl}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -66,11 +67,10 @@ const LeadForm = ({ defaultProperty = 'General Inquiry', darkBg = false }) => {
   };
 
   return (
-    <div className={`p-6 rounded-2xl border transition-all ${
-      darkBg 
-        ? 'bg-slate-900 border-slate-800 text-white' 
+    <div className={`p-6 rounded-2xl border transition-all ${darkBg
+        ? 'bg-slate-900 border-slate-800 text-white'
         : 'bg-white border-slate-200/50 text-slate-800 dark:bg-slate-900 dark:border-slate-800 dark:text-white'
-    } shadow-lg`}>
+      } shadow-lg`}>
       <h3 className="text-xl font-bold mb-2">Schedule a Consultation</h3>
       <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
         Fill out the form below and our real estate experts will connect with you within 24 hours.

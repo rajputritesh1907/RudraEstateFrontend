@@ -80,7 +80,8 @@ export default function Home() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects`);
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+      const res = await fetch(`${baseUrl}/api/projects`);
       if (res.ok) {
         const data = await res.json();
         const featured = data.filter(p => p.featured === true || p.status === 'Active');
@@ -92,7 +93,8 @@ export default function Home() {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials`);
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+      const res = await fetch(`${baseUrl}/api/testimonials`);
       if (res.ok) {
         const data = await res.json();
         setTestimonials(data);
@@ -587,8 +589,8 @@ export default function Home() {
                           key={idx}
                           onClick={() => setCurrentSlide(Math.min(idx, testimonials.length - visibleCount))}
                           className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${isVisible
-                              ? 'bg-gradient-gold shadow-md shadow-gold-500/20 scale-125'
-                              : 'bg-slate-300 dark:bg-slate-700 hover:bg-gold-500/40'
+                            ? 'bg-gradient-gold shadow-md shadow-gold-500/20 scale-125'
+                            : 'bg-slate-300 dark:bg-slate-700 hover:bg-gold-500/40'
                             }`}
                           aria-label={`Go to slide ${idx + 1}`}
                         />
