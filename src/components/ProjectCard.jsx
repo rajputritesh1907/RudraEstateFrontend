@@ -3,7 +3,7 @@
 import React from 'react';
 import { MapPin, Maximize2, ShieldCheck, CheckCircle } from 'lucide-react';
 
-const ProjectCard = ({ project, onInquire }) => {
+const ProjectCard = ({ project, onInquire, index }) => {
   const { title, phase, status, type, description, location, priceRange, sizeRange, amenities, highlights, image } = project;
 
   const isSoldOut = status === 'Sold Out';
@@ -31,6 +31,13 @@ const ProjectCard = ({ project, onInquire }) => {
             {type}
           </span>
         </div>
+
+        {/* Index Badge */}
+        {index !== undefined && (
+          <div className="absolute top-4 right-4 bg-navy-900/90 backdrop-blur-md text-gold-400 border border-gold-500/30 px-2.5 py-1 rounded-xl text-[10px] font-black shadow-md tracking-wider">
+            {String(index + 1).padStart(2, '0')}
+          </div>
+        )}
 
         {/* Phase Badge */}
         {phase && (

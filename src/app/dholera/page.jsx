@@ -145,6 +145,42 @@ const DholeraSIR = () => {
     }
   };
 
+  const timelineRef = React.useRef(null);
+  const [scrollProgress, setScrollProgress] = React.useState(0);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (!timelineRef.current) return;
+      const element = timelineRef.current;
+      const rect = element.getBoundingClientRect();
+      
+      const windowHeight = window.innerHeight;
+      
+      // Start filling line when top of timeline is at 70% of viewport
+      const start = windowHeight * 0.7;
+      // Finish filling when bottom of timeline is at 40% of viewport
+      const end = windowHeight * 0.4;
+      
+      const totalHeight = rect.height;
+      const scrolled = start - rect.top;
+      
+      let percentage = (scrolled / (totalHeight - (end - start))) * 100;
+      if (percentage < 0) percentage = 0;
+      if (percentage > 100) percentage = 100;
+      
+      setScrollProgress(percentage);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-955 transition-colors relative">
       
@@ -214,7 +250,7 @@ const DholeraSIR = () => {
             <div className="lg:col-span-5 space-y-6">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-100 dark:border-slate-800/80 group">
                 <img
-                  src="https://cdn.slidesharecdn.com/ss_thumbnails/dholeramasterplan-121027083840-phpapp01-thumbnail.jpg?width=640&height=640&fit=bounds"
+                  src="/dholera_master_plan.png"
                   alt="Dholera Smart City Master Plan Map"
                   className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -383,85 +419,155 @@ const DholeraSIR = () => {
           </div>
 
           {/* Vertical Timeline */}
-          <div className="relative max-w-4xl mx-auto">
-            {/* Timeline center line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-amber-500 h-full hidden md:block opacity-60" />
+          <div ref={timelineRef} className="relative max-w-4xl mx-auto">
+            {/* Timeline center lines */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-slate-200 dark:bg-slate-800/60 h-full hidden md:block" />
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-amber-500 hidden md:block transition-all duration-150 ease-out origin-top" style={{ height: `${scrollProgress}%` }} />
 
-            <div className="space-y-12">
-              
-              {/* Row 1: Road (Blue) */}
-              <div className="relative flex flex-col md:flex-row items-center justify-between">
-                <div className="w-full md:w-5/12 pr-0 md:pr-8 text-center md:text-right bg-blue-500/[0.02] dark:bg-blue-500/[0.01] p-6 rounded-2xl border border-blue-500/10">
-                  <h4 className="text-lg font-bold text-blue-600 dark:text-blue-455">Ahmedabad-Dholera Expressway</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                    A critical 109-km, 4-lane (expandable to 8-lane) access-controlled greenfield expressway. Designed for speeds up to 120 km/h, it will drastically reduce travel time between Ahmedabad and Dholera to only 40-45 minutes. The route features modern toll systems, emergency services, and dedicated lanes for cargo trucks, connecting directly to the arterial highway network of Gujarat (Operational by June 2025).
-                  </p>
-                </div>
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center border-4 border-white dark:border-slate-900 z-10 shadow-lg shadow-blue-500/20 hidden md:flex">
-                  <Activity className="h-4 w-4" />
-                </div>
-                <div className="w-full md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 text-center md:text-left">
-                  <span className="px-3 py-1.5 bg-blue-105 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/30 rounded-full text-xs font-semibold">
-                    Road Link — 109 Km
-                  </span>
-                </div>
-              </div>
+            {(() => {
+              const node1Active = scrollProgress >= 5;
+              const node2Active = scrollProgress >= 33;
+              const node3Active = scrollProgress >= 66;
+              const node4Active = scrollProgress >= 95;
 
-              {/* Row 2: Air (Emerald) */}
-              <div className="relative flex flex-col md:flex-row-reverse items-center justify-between">
-                <div className="w-full md:w-5/12 pl-0 md:pl-8 text-center md:text-left bg-emerald-500/[0.02] dark:bg-emerald-500/[0.01] p-6 rounded-2xl border border-emerald-500/10">
-                  <h4 className="text-lg font-bold text-emerald-605 dark:text-emerald-450">Dholera International Airport</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                    A massive greenfield international cargo and passenger airport spanning 1,426 hectares near Navagam. Developed under a joint venture (DIACL) with a 4,000-meter runway capable of handling giant cargo carriers like the Antonov An-225. Phase 1 cargo and passenger terminals are scheduled to open by March 2026, initial capacity of 1.5 million passengers per year, scaling up to 30 million upon final phase completion.
-                  </p>
-                </div>
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center border-4 border-white dark:border-slate-900 z-10 shadow-lg shadow-emerald-500/20 hidden md:flex">
-                  <Plane className="h-4 w-4" />
-                </div>
-                <div className="w-full md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 text-center md:text-right">
-                  <span className="px-3 py-1.5 bg-emerald-105 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/30 rounded-full text-xs font-semibold">
-                    Air Link — Phase 1 (2026)
-                  </span>
-                </div>
-              </div>
+              return (
+                <div className="space-y-12">
+                  
+                  {/* Row 1: Road (Blue) */}
+                  <div className="relative flex flex-col md:flex-row items-center justify-between group">
+                    <div className={`w-full md:w-5/12 pr-0 md:pr-8 text-center md:text-right p-6 rounded-2xl border transition-all duration-500 ${
+                      node1Active
+                        ? 'bg-blue-500/[0.04] border-blue-500/35 shadow-lg shadow-blue-500/[0.02] scale-[1.01] opacity-100'
+                        : 'bg-slate-500/[0.01] border-slate-200/40 dark:border-slate-800/20 opacity-60'
+                    }`}>
+                      <h4 className="text-lg font-bold text-blue-600 dark:text-blue-455">Ahmedabad-Dholera Expressway</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                        A critical 109-km, 4-lane (expandable to 8-lane) access-controlled greenfield expressway. Designed for speeds up to 120 km/h, it will drastically reduce travel time between Ahmedabad and Dholera to only 40-45 minutes. The route features modern toll systems, emergency services, and dedicated lanes for cargo trucks, connecting directly to the arterial highway network of Gujarat (Operational by June 2025).
+                      </p>
+                    </div>
+                    <div className={`absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center border-4 z-10 shadow-lg hidden md:flex hover:scale-110 transition-all duration-300 ${
+                      node1Active 
+                        ? 'bg-blue-600 text-white border-white dark:border-slate-900 shadow-blue-500/20' 
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 border-slate-100 dark:border-slate-900 shadow-none'
+                    }`}>
+                      {node1Active && (
+                        <div className="absolute inset-0 rounded-full bg-blue-600/40 animate-ping pointer-events-none" />
+                      )}
+                      <Activity className={`h-4.5 w-4.5 relative z-10 ${node1Active ? 'animate-pulse' : ''}`} />
+                    </div>
+                    <div className="w-full md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 text-center md:text-left">
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-500 ${
+                        node1Active
+                          ? 'bg-blue-105 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-200/50 dark:border-blue-900/30'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600 border-slate-200/20 dark:border-slate-800/20'
+                      }`}>
+                        Road Link — 109 Km
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Row 3: Rail (Purple) */}
-              <div className="relative flex flex-col md:flex-row items-center justify-between">
-                <div className="w-full md:w-5/12 pr-0 md:pr-8 text-center md:text-right bg-purple-500/[0.02] dark:bg-purple-500/[0.01] p-6 rounded-2xl border border-purple-500/10">
-                  <h4 className="text-lg font-bold text-purple-600 dark:text-purple-450">Rail & Metro Access</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                    Dholera SIR is integrated with the Western Dedicated Freight Corridor (DFC), linking northern industrial heartlands to western ports with high-speed cargo movement. Additionally, a double-track high-speed Metro rail transit system (MRTS) is under development, running parallel to the expressway to provide rapid, eco-friendly transit for commuters between Ahmedabad and Dholera.
-                  </p>
-                </div>
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center border-4 border-white dark:border-slate-900 z-10 shadow-lg shadow-purple-500/20 hidden md:flex">
-                  <Network className="h-4 w-4" />
-                </div>
-                <div className="w-full md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 text-center md:text-left">
-                  <span className="px-3 py-1.5 bg-purple-105 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200/50 dark:border-purple-900/30 rounded-full text-xs font-semibold">
-                    Rail Link — Metro & DFC
-                  </span>
-                </div>
-              </div>
+                  {/* Row 2: Air (Emerald) */}
+                  <div className="relative flex flex-col md:flex-row-reverse items-center justify-between group">
+                    <div className={`w-full md:w-5/12 pl-0 md:pl-8 text-center md:text-left p-6 rounded-2xl border transition-all duration-500 ${
+                      node2Active
+                        ? 'bg-emerald-500/[0.04] border-emerald-500/35 shadow-lg shadow-emerald-500/[0.02] scale-[1.01] opacity-100'
+                        : 'bg-slate-500/[0.01] border-slate-200/40 dark:border-slate-800/20 opacity-60'
+                    }`}>
+                      <h4 className="text-lg font-bold text-emerald-605 dark:text-emerald-450">Dholera International Airport</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                        A massive greenfield international cargo and passenger airport spanning 1,426 hectares near Navagam. Developed under a joint venture (DIACL) with a 4,000-meter runway capable of handling giant cargo carriers like the Antonov An-225. Phase 1 cargo and passenger terminals are scheduled to open by March 2026, initial capacity of 1.5 million passengers per year, scaling up to 30 million upon final phase completion.
+                      </p>
+                    </div>
+                    <div className={`absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center border-4 z-10 shadow-lg hidden md:flex hover:scale-110 transition-all duration-300 ${
+                      node2Active 
+                        ? 'bg-emerald-600 text-white border-white dark:border-slate-900 shadow-emerald-500/20' 
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 border-slate-100 dark:border-slate-900 shadow-none'
+                    }`}>
+                      {node2Active && (
+                        <div className="absolute inset-0 rounded-full bg-emerald-600/40 animate-ping pointer-events-none" />
+                      )}
+                      <Plane className="h-4.5 w-4.5 relative z-10" style={node2Active ? { animation: 'bounce 3s infinite' } : {}} />
+                    </div>
+                    <div className="w-full md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 text-center md:text-right">
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-500 ${
+                        node2Active
+                          ? 'bg-emerald-105 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-200/50 dark:border-emerald-900/30'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600 border-slate-200/20 dark:border-slate-800/20'
+                      }`}>
+                        Air Link — Phase 1 (2026)
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Row 4: Sea (Amber) */}
-              <div className="relative flex flex-col md:flex-row-reverse items-center justify-between">
-                <div className="w-full md:w-5/12 pl-0 md:pl-8 text-center md:text-left bg-amber-500/[0.02] dark:bg-amber-500/[0.01] p-6 rounded-2xl border border-amber-500/10">
-                  <h4 className="text-lg font-bold text-amber-600 dark:text-amber-455">Port Connectivity</h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                    Located adjacent to the Gulf of Khambhat, the city offers seamless maritime logistics via direct access to major active deep-water ports including Kandla, Mundra, Dahej, and Pipavav. Furthermore, a new dedicated cargo port is planned at Dholera itself to handle bulk manufacturing exports and container terminals, establishing a direct gateway to global trade lanes.
-                  </p>
-                </div>
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-9 h-9 rounded-full bg-amber-500 text-slate-955 flex items-center justify-center border-4 border-white dark:border-slate-900 z-10 shadow-lg shadow-amber-500/20 hidden md:flex">
-                  <Building className="h-4 w-4" />
-                </div>
-                <div className="w-full md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 text-center md:text-right">
-                  <span className="px-3 py-1.5 bg-amber-105 dark:bg-amber-955/40 text-amber-600 dark:text-amber-450 border border-amber-200/50 dark:border-amber-900/30 rounded-full text-xs font-semibold">
-                    Sea Link — Khambhat & Pipavav
-                  </span>
-                </div>
-              </div>
+                  {/* Row 3: Rail (Purple) */}
+                  <div className="relative flex flex-col md:flex-row items-center justify-between group">
+                    <div className={`w-full md:w-5/12 pr-0 md:pr-8 text-center md:text-right p-6 rounded-2xl border transition-all duration-500 ${
+                      node3Active
+                        ? 'bg-purple-500/[0.04] border-purple-500/35 shadow-lg shadow-purple-500/[0.02] scale-[1.01] opacity-100'
+                        : 'bg-slate-500/[0.01] border-slate-200/40 dark:border-slate-800/20 opacity-60'
+                    }`}>
+                      <h4 className="text-lg font-bold text-purple-600 dark:text-purple-450">Rail & Metro Access</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                        Dholera SIR is integrated with the Western Dedicated Freight Corridor (DFC), linking northern industrial heartlands to western ports with high-speed cargo movement. Additionally, a double-track high-speed Metro rail transit system (MRTS) is under development, running parallel to the expressway to provide rapid, eco-friendly transit for commuters between Ahmedabad and Dholera.
+                      </p>
+                    </div>
+                    <div className={`absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center border-4 z-10 shadow-lg hidden md:flex hover:scale-110 transition-all duration-300 ${
+                      node3Active 
+                        ? 'bg-purple-600 text-white border-white dark:border-slate-900 shadow-purple-500/20' 
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 border-slate-100 dark:border-slate-900 shadow-none'
+                    }`}>
+                      {node3Active && (
+                        <div className="absolute inset-0 rounded-full bg-purple-600/40 animate-ping pointer-events-none" />
+                      )}
+                      <Network className={`h-4.5 w-4.5 relative z-10 ${node3Active ? 'animate-pulse' : ''}`} />
+                    </div>
+                    <div className="w-full md:w-5/12 pl-0 md:pl-8 mt-4 md:mt-0 text-center md:text-left">
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-500 ${
+                        node3Active
+                          ? 'bg-purple-105 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border-purple-200/50 dark:border-purple-900/30'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600 border-slate-200/20 dark:border-slate-800/20'
+                      }`}>
+                        Rail Link — Metro & DFC
+                      </span>
+                    </div>
+                  </div>
 
-            </div>
+                  {/* Row 4: Sea (Amber) */}
+                  <div className="relative flex flex-col md:flex-row-reverse items-center justify-between group">
+                    <div className={`w-full md:w-5/12 pl-0 md:pl-8 text-center md:text-left p-6 rounded-2xl border transition-all duration-500 ${
+                      node4Active
+                        ? 'bg-amber-500/[0.04] border-amber-500/35 shadow-lg shadow-amber-500/[0.02] scale-[1.01] opacity-100'
+                        : 'bg-slate-500/[0.01] border-slate-200/40 dark:border-slate-800/20 opacity-60'
+                    }`}>
+                      <h4 className="text-lg font-bold text-amber-600 dark:text-amber-455">Port Connectivity</h4>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                         Located adjacent to the Gulf of Khambhat, the city offers seamless maritime logistics via direct access to major active deep-water ports including Kandla, Mundra, Dahej, and Pipavav. Furthermore, a new dedicated cargo port is planned at Dholera itself to handle bulk manufacturing exports and container terminals, establishing a direct gateway to global trade lanes.
+                      </p>
+                    </div>
+                    <div className={`absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center border-4 z-10 shadow-lg hidden md:flex hover:scale-110 transition-all duration-300 ${
+                      node4Active 
+                        ? 'bg-amber-550 text-slate-955 border-white dark:border-slate-900 shadow-amber-500/20' 
+                        : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 border-slate-100 dark:border-slate-900 shadow-none'
+                    }`}>
+                      {node4Active && (
+                        <div className="absolute inset-0 rounded-full bg-amber-550/40 animate-ping pointer-events-none" />
+                      )}
+                      <Building className="h-4.5 w-4.5 relative z-10" />
+                    </div>
+                    <div className="w-full md:w-5/12 pr-0 md:pr-8 mt-4 md:mt-0 text-center md:text-right">
+                      <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-500 ${
+                        node4Active
+                          ? 'bg-amber-105 dark:bg-amber-955/40 text-amber-600 dark:text-amber-455 border-amber-200/50 dark:border-amber-900/30'
+                          : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600 border-slate-200/20 dark:border-slate-800/20'
+                      }`}>
+                        Sea Link — Khambhat & Pipavav
+                      </span>
+                    </div>
+                  </div>
+
+                </div>
+              );
+            })()}
           </div>
         </div>
       </section>

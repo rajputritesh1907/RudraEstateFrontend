@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { Calendar, User, Clock, Search, ArrowRight } from 'lucide-react';
@@ -49,7 +49,7 @@ export default function Blog() {
 
   const fetchBlogs = async () => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs`);
       if (res.ok) {
         const data = await res.json();
         setBlogs(data.length > 0 ? data : STATIC_BLOGS);

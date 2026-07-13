@@ -73,14 +73,14 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [testimonials.length, visibleCount]);
 
-  useEffect(() => { 
-    fetchProjects(); 
+  useEffect(() => {
+    fetchProjects();
     fetchTestimonials();
   }, []);
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects`);
       if (res.ok) {
         const data = await res.json();
         const featured = data.filter(p => p.featured === true || p.status === 'Active');
@@ -92,7 +92,7 @@ export default function Home() {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/testimonials`);
       if (res.ok) {
         const data = await res.json();
         setTestimonials(data);
@@ -149,7 +149,7 @@ export default function Home() {
       </section>
 
       {/* ── SCROLL-OVER WRAPPER ── */}
-      <div className="relative z-10 bg-white dark:bg-slate-950 shadow-2xl">
+      <div className="relative z-10 bg-white dark:bg-slate-950 shadow-[0_-15px_30px_-5px_rgba(0,0,0,0.1)] dark:shadow-none">
 
         {/* Stats */}
         <StatsSection />
@@ -210,9 +210,9 @@ export default function Home() {
         <section className="relative z-10 py-24 bg-slate-900 dark:bg-slate-950 overflow-hidden">
           {/* Background Image with dark overlay */}
           <div className="absolute inset-0 pointer-events-none z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80" 
-              alt="Dholera Smart City Infrastructure Background" 
+            <img
+              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=80"
+              alt="Dholera Smart City Infrastructure Background"
               className="w-full h-full object-cover opacity-30 dark:opacity-40 mix-blend-overlay"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/40 to-slate-900/90 dark:from-slate-950/90 dark:via-slate-950/40 dark:to-slate-950/90" />
@@ -300,7 +300,11 @@ export default function Home() {
         </section>
 
         {/* ── PROJECTS ── */}
-        <section className="relative z-10 py-20 bg-slate-50 dark:bg-slate-900/40 transition-colors">
+        <section className="relative z-10 py-20 bg-slate-100 dark:bg-slate-900 transition-colors border-y border-slate-200/40 dark:border-slate-800/30">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-gold-500/[0.03] dark:bg-gold-500/[0.015] rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-72 bg-blue-500/[0.03] dark:bg-blue-500/[0.015] rounded-full blur-[80px]" />
+          </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
               <div>
@@ -317,8 +321,8 @@ export default function Home() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {projects.map(project => (
-                  <ProjectCard key={project._id} project={project} onInquire={handleInquiryTrigger} />
+                {projects.map((project, index) => (
+                  <ProjectCard key={project._id} project={project} index={index} onInquire={handleInquiryTrigger} />
                 ))}
               </div>
             )}
@@ -384,7 +388,7 @@ export default function Home() {
         </section>
 
         {/* ── ACHIEVEMENTS & AWARDS ── */}
-        <section className="relative z-10 py-24 bg-slate-50 dark:bg-slate-900/40 border-t border-slate-100 dark:border-slate-800 transition-colors overflow-hidden">
+        <section className="relative z-10 py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 transition-colors overflow-hidden">
           {/* Subtle bg pattern */}
           <div className="absolute inset-0 pointer-events-none opacity-5">
             <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -396,7 +400,6 @@ export default function Home() {
               <rect width="100%" height="100%" fill="url(#ach-grid)" />
             </svg>
           </div>
-
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
             {/* Header */}
             <div className="text-center mb-16">
@@ -470,9 +473,9 @@ export default function Home() {
         </section>
 
         {/* ── TESTIMONIALS ── */}
-        <section className="relative z-10 py-20 bg-slate-50 dark:bg-slate-900/10 border-t border-slate-100 dark:border-slate-800 transition-colors overflow-hidden">
+        <section className="relative z-10 py-20 bg-slate-50 dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 transition-colors overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            
+
             {/* Header with Control Buttons */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
               <div className="text-center md:text-left">
@@ -486,13 +489,13 @@ export default function Home() {
               {/* Slider Arrows */}
               {!testimonialsLoading && testimonials.length > visibleCount && (
                 <div className="flex space-x-3">
-                  <button 
+                  <button
                     onClick={() => setCurrentSlide((prev) => prev === 0 ? testimonials.length - visibleCount : prev - 1)}
                     className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-gold-500 dark:hover:border-gold-500 hover:text-gold-500 text-slate-600 dark:text-slate-400 transition-all shadow-sm"
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </button>
-                  <button 
+                  <button
                     onClick={() => setCurrentSlide((prev) => prev >= testimonials.length - visibleCount ? 0 : prev + 1)}
                     className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:border-gold-500 dark:hover:border-gold-500 hover:text-gold-500 text-slate-600 dark:text-slate-400 transition-all shadow-sm"
                   >
@@ -525,33 +528,38 @@ export default function Home() {
               </div>
             ) : (
               <div className="relative overflow-hidden w-full py-4 -mx-3">
-                <div 
+                <div
                   className="flex transition-transform duration-700 ease-out"
                   style={{ transform: `translateX(-${currentSlide * (100 / visibleCount)}%)` }}
                 >
-                  {testimonials.map((t) => (
-                    <div 
-                      key={t._id} 
-                      className="shrink-0 px-3 flex"
+                  {testimonials.map((t, idx) => (
+                    <div
+                      key={t._id}
+                      className="shrink-0 px-3 flex relative group"
                       style={{ width: `${100 / visibleCount}%` }}
                     >
-                      <div className="w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col justify-between">
+                      <div className="w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800/80 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 relative group flex flex-col justify-between overflow-hidden">
+                        {/* Large Backdrop Card Number */}
+                        <div className="absolute top-6 right-8 text-5xl font-black text-slate-100 dark:text-slate-800/40 select-none pointer-events-none transition-all duration-300 group-hover:text-gold-500/10 font-mono">
+                          {String(idx + 1).padStart(2, '0')}
+                        </div>
+
                         {/* Stars */}
-                        <div className="flex items-center space-x-1 mb-5">
+                        <div className="flex items-center space-x-1 mb-5 relative z-10">
                           {[...Array(t.rating)].map((_, idx) => (
                             <Star key={idx} className="h-4 w-4 fill-current text-amber-500" />
                           ))}
                         </div>
 
                         {/* Message */}
-                        <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed italic mb-8 flex-grow">
+                        <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed italic mb-8 flex-grow relative z-10">
                           &ldquo;{t.message}&rdquo;
                         </p>
 
                         {/* Profile */}
-                        <div className="flex items-center space-x-4 border-t border-slate-100 dark:border-slate-800/60 pt-5 mt-auto">
-                          <img 
-                            src={t.image} 
+                        <div className="flex items-center space-x-4 border-t border-slate-100 dark:border-slate-800/60 pt-5 mt-auto relative z-10">
+                          <img
+                            src={t.image}
                             alt={t.name}
                             className="w-12 h-12 rounded-full object-cover border-2 border-gold-500/20 group-hover:border-gold-500/60 transition-colors"
                           />
@@ -571,18 +579,21 @@ export default function Home() {
 
                 {/* Dot Pagination indicators */}
                 {testimonials.length > visibleCount && (
-                  <div className="flex justify-center space-x-2 mt-8">
-                    {[...Array(testimonials.length - visibleCount + 1)].map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setCurrentSlide(idx)}
-                        className={`h-2.5 rounded-full transition-all duration-300 ${
-                          currentSlide === idx 
-                            ? 'w-6 bg-gradient-gold' 
-                            : 'w-2.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400'
-                        }`}
-                      />
-                    ))}
+                  <div className="flex justify-center space-x-3 mt-8">
+                    {testimonials.map((_, idx) => {
+                      const isVisible = idx >= currentSlide && idx < currentSlide + visibleCount;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentSlide(Math.min(idx, testimonials.length - visibleCount))}
+                          className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${isVisible
+                              ? 'bg-gradient-gold shadow-md shadow-gold-500/20 scale-125'
+                              : 'bg-slate-300 dark:bg-slate-700 hover:bg-gold-500/40'
+                            }`}
+                          aria-label={`Go to slide ${idx + 1}`}
+                        />
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -628,7 +639,7 @@ export default function Home() {
                   email: 'mailto:nitin@rudragroup.com'
                 }
               ].map((leader, index) => (
-                <div 
+                <div
                   key={index}
                   className="group bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-gold-500/40 dark:hover:border-gold-500/40 transition-all duration-500 flex flex-col h-full transform hover:-translate-y-1.5"
                 >
@@ -643,17 +654,17 @@ export default function Home() {
                         Rudra Leader
                       </span>
                       <div className="flex space-x-2">
-                        <a 
-                          href={leader.linkedin} 
+                        <a
+                          href={leader.linkedin}
                           className="p-2 bg-white/10 hover:bg-gold-500 text-white hover:text-slate-950 rounded-full backdrop-blur-sm transition-all flex items-center justify-center"
                           aria-label="LinkedIn Profile"
                         >
                           <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                           </svg>
                         </a>
-                        <a 
-                          href={leader.email} 
+                        <a
+                          href={leader.email}
                           className="p-2 bg-white/10 hover:bg-gold-500 text-white hover:text-slate-950 rounded-full backdrop-blur-sm transition-all"
                           aria-label="Email Address"
                         >
@@ -682,7 +693,7 @@ export default function Home() {
         </section>
 
         {/* ── INQUIRIES FORM ── */}
-        <section id="contact-section" className="relative z-10 py-20 bg-slate-50 dark:bg-slate-900/30 transition-colors border-t border-slate-100 dark:border-slate-900">
+        <section id="contact-section" className="relative z-10 py-20 bg-slate-50 dark:bg-slate-900 transition-colors border-t border-slate-100 dark:border-slate-900">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-5 space-y-6">

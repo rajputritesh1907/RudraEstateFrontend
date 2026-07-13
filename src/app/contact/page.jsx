@@ -13,18 +13,6 @@ const offices = [
     phone: '+91 900 000 0000',
     email: 'info@rudragroup.com',
   },
-  {
-    title: 'Dholera Site Office',
-    address: 'Shop No. 12, Prime Plaza, Main Activation Highway, Dholera SIR, Gujarat 382455',
-    phone: '+91 900 000 0001',
-    email: 'dholera@rudragroup.com',
-  },
-  {
-    title: 'Regional Office (Gwalior)',
-    address: 'First Floor, Tomar Chambers, Lashkar, Gwalior, Madhya Pradesh 474001',
-    phone: '+91 751 000 0000',
-    email: 'gwalior@rudragroup.com',
-  }
 ];
 
 function ContactContent() {
@@ -57,9 +45,9 @@ function ContactContent() {
       {/* Main Info Columns */}
       <section className="py-20 bg-white dark:bg-slate-950 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
             {/* Offices & Details */}
-            <div className="lg:col-span-5 space-y-8">
+            <div className="lg:col-span-5 flex flex-col space-y-6">
               <h2 className="text-xs font-bold text-gold-500 uppercase tracking-widest">Offices</h2>
               <h3 className="text-3xl font-extrabold text-slate-800 dark:text-white">Our Coordinates</h3>
               
@@ -83,6 +71,23 @@ function ContactContent() {
                 ))}
               </div>
 
+              {/* Inline Map */}
+              <div className="rounded-2xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 flex-1 min-h-48">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.8982902038!2d72.50317137601588!3d23.030165215718!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848abad45555%3A0x4fcedd11614c23b3!2sSignature%201%2C%20Nr.%20ISCON%20Cross%20Road%2C%20Sarkhej%20-%20Gandhinagar%20Hwy%2C%20Ahmedabad%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1689000000000!5m2!1sen!2sin"
+                  className="w-full h-full border-0 transition-all duration-300"
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                ></iframe>
+              </div>
+
+            </div>
+
+            {/* Form Column */}
+            <div className="lg:col-span-7 space-y-6">
+              <LeadForm defaultProperty={propertyParam} />
+
               {/* Hours / RERA */}
               <div className="p-5 bg-navy-800 text-slate-300 rounded-2xl space-y-4 border border-gold-500/10">
                 <div className="flex items-center space-x-3">
@@ -101,28 +106,10 @@ function ContactContent() {
                 </div>
               </div>
             </div>
-
-            {/* Form Column */}
-            <div className="lg:col-span-7">
-              <LeadForm defaultProperty={propertyParam} />
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Styled Map Placeholder Section */}
-      <section className="h-96 relative bg-slate-100 dark:bg-slate-900 transition-colors border-y border-slate-200/50 dark:border-slate-800/50">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center space-y-2 z-10 px-4">
-            <MapPin className="h-10 w-10 text-gold-500 mx-auto animate-bounce" />
-            <h4 className="font-extrabold text-lg text-slate-800 dark:text-white">Rudra Signature Offices</h4>
-            <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
-              SG Highway, Ahmedabad, Gujarat (GPS: 23.0298° N, 72.5065° E)
-            </p>
-          </div>
-          <div className="absolute inset-0 opacity-15 dark:opacity-5 bg-[radial-gradient(#d4af37_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        </div>
-      </section>
 
       {/* FAQ Accordion Section */}
       <section className="py-20 bg-slate-50 dark:bg-slate-900/30 transition-colors">

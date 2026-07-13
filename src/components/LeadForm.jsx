@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
@@ -36,7 +36,7 @@ const LeadForm = ({ defaultProperty = 'General Inquiry', darkBg = false }) => {
     }
 
     try {
-      const response = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

@@ -72,3 +72,18 @@
   -webkit-text-stroke: 1px currentColor;
   color: transparent;
 }
+
+/* Timeline Flow Animation */
+@keyframes flowLine {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+.animate-flow-line {
+  background-size: 100% 200%;
+  animation: flowLine 4s linear infinite;
+}

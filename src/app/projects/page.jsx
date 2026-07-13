@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -93,7 +93,7 @@ const ALL_STATIC_PROJECTS = [
     sizeRange: "10,000 - 50,000 sq.ft.",
     amenities: ["220KV Power Supply", "Heavy Transport Access Roads", "Effluent Disposal Line", "Gas Pipelines Connection"],
     highlights: ["Ideal for Warehouses/Manufacturing", "Next to Multi-Modal Logistics Hub", "Easy Government Approvals"],
-    image: "https://images.unsplash.com/photo-1530606901857-6c97d167f13a?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
     featured: false
   }
 ];
@@ -118,7 +118,7 @@ function ProjectsContent() {
 
   const fetchProjects = async () => {
     try {
-      const res = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects');
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/projects`);
       if (res.ok) {
         const data = await res.json();
         setProjects(data.length > 0 ? data : ALL_STATIC_PROJECTS);

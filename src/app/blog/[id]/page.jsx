@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -78,7 +78,7 @@ export default function BlogPostDetail() {
       setBlog(currentBlog);
 
       // Fetch all blogs to filter recommended ones
-      const allRes = await fetch('${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs');
+      const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || `http://localhost:5000`}/api/blogs`);
       let allBlogs = [];
       if (allRes.ok) {
         allBlogs = await allRes.json();
